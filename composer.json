@@ -1,0 +1,21 @@
+{
+    "name": "aki/yii2-vue",
+    "description": "for yii2 web application ",
+    "type": "yii2-extension",
+    "keywords": ["yii2","vue"," yii2-vue"," yii2"," vuejs"," akbar-joudi"," vue.js"],
+    "license": "LGPL-3.0+",
+    "authors": [
+        {
+            "name": "akbar joudi",
+            "email": "akbar.joody@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "aki\\vue\\": ""
+        }
+    }
+}
