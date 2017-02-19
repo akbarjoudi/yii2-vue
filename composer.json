@@ -12,7 +12,8 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "bower-asset/vue": "*"
+        "bower-asset/vue": "*",
+        "bower-asset/axios" : "*"
     },
     "autoload": {
         "psr-4": {
