@@ -24,9 +24,17 @@ class Vue extends \yii\base\Widget
      */
     public $methods;
     
-    
+    /**
+     *
+     * @var Array 
+     */ 
     public $watch;
-
+    
+    /**
+     *
+     * @var Array
+     */
+    public $computed;
 
     public function init() {
         $this->view->registerAssetBundle(VueAsset::className());
@@ -60,6 +68,7 @@ class Vue extends \yii\base\Widget
                 ".(!empty($data) ? "data :".$data.",":null)."
                 ".(!empty($methods) ? "methods :".$methods."," :null)."
                 ".(!empty($watch) ? "watch :".$watch."," :null)."
+                ".(!empty($computed) ? "computed :".$computed."," :null)."
             }); 
         ";
         Yii::$app->view->registerJs($js, \yii\web\View::POS_END);
@@ -72,7 +81,7 @@ class Vue extends \yii\base\Widget
     }
   
     public function generateMethods() {
-        if(!empty($this->methods)){
+        if(is_array($this->methods) && !empty($this->methods)){
             $str = '';
             foreach ($this->methods as $key => $value) {
                 if($value instanceof \yii\web\JsExpression){
@@ -85,7 +94,7 @@ class Vue extends \yii\base\Widget
     
     
     public function generateWatch() {
-        if(!empty($this->watch)){
+        if(is_array($this->watch) && !empty($this->watch)){
             $str = '';
             foreach ($this->watch as $key => $value) {
                 if($value instanceof \yii\web\JsExpression){
@@ -96,5 +105,22 @@ class Vue extends \yii\base\Widget
         }
     }
     
+    public function generateComputed() {
+        if(is_array($this->computed) && !empty($this->computed)){
+            $str = '';
+            foreach ($this->computed as $key => $value) {
+                if($value instanceof \yii\web\JsExpression){
+                    $str.= $key.":".$value->expression;
+                }
+            }
+            return "{".$str."}";
+        }
+    }
     
+    public function component($tagName, $option) {
+        $option = json_encode($option);
+        $this->view->registerJs("
+            Vue.component($tagName, $option);
+            ");
+    }
 }
