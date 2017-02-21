@@ -61,6 +61,7 @@ class Vue extends \yii\base\Widget
         $data = $this->generateData();
         $methods = $this->generateMethods();
         $watch = $this->generateWatch();
+        $computed = $this->generateComputed();
         $el = $this->id;
         $js = "
             var app = new Vue({
