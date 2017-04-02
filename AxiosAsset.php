@@ -13,10 +13,10 @@ namespace aki\vue;
  *
  * @author user
  */
-class AxiosAsset extends \kartik\base\AssetBundle{
-    public $sourcePath = '@bower/vue/dist';
+class AxiosAsset extends \yii\web\AssetBundle{
+    public $sourcePath = '@bower/axios/dist';
     
     public $js = [
-        'lodash.min.js',
+        'axios.min.js',
     ];
 }
