@@ -1,10 +1,9 @@
 <?php
-
 namespace aki\vue;
 
 use Yii;
 /**
- * This is just an example.
+ * @author akbar joudi <akbar.joody@gmail.com>
  */
 class Vue extends \yii\base\Widget
 {
