@@ -13,7 +13,7 @@ namespace aki\vue;
  *
  * @author user
  */
-class VueAsset extends \kartik\base\AssetBundle{
+class VueAsset extends \yii\web\AssetBundle{
     public $sourcePath = '@bower/vue/dist';
     
     public $js = [
