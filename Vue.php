@@ -14,6 +14,11 @@ class Vue extends \yii\base\Widget
     public $data;
     
     /**
+    *   template
+    */
+    public $templete;
+    
+    /**
      * 'methods' => [
      *  'reverseMessage' => new yii\web\JsExpression("function(){"
      *      . "this.message =1; "
@@ -65,6 +70,7 @@ class Vue extends \yii\base\Widget
         $js = "
             var app = new Vue({
                 el: '#".$el."',
+                ".(!empty($this->template) ? "template :'".$this->template."'," :null)."
                 ".(!empty($data) ? "data :".$data.",":null)."
                 ".(!empty($methods) ? "methods :".$methods."," :null)."
                 ".(!empty($watch) ? "watch :".$watch."," :null)."
