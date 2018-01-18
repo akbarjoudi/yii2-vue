@@ -40,6 +40,18 @@ class Vue extends \yii\base\Widget
      */
     public $computed;
 
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
+    public $created;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
+    public $updated;
+
     public function init() {
         $this->view->registerAssetBundle(VueAsset::className());
         $this->view->registerAssetBundle(AxiosAsset::className());
@@ -75,6 +87,8 @@ class Vue extends \yii\base\Widget
                 ".(!empty($methods) ? "methods :".$methods."," :null)."
                 ".(!empty($watch) ? "watch :".$watch."," :null)."
                 ".(!empty($computed) ? "computed :".$computed."," :null)."
+                ".(!empty($this->created) ? "created :".$this->created->expression."," :null)."
+                ".(!empty($this->updated) ? "updated :".$this->updated->expression."," :null)."
             }); 
         ";
         Yii::$app->view->registerJs($js, \yii\web\View::POS_END);
