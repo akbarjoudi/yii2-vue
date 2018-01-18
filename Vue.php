@@ -44,13 +44,62 @@ class Vue extends \yii\base\Widget
      *
      * @var \yii\web\JsExpression
      */
+    public $beforeCreate;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
     public $created;
 
     /**
      *
      * @var \yii\web\JsExpression
      */
+    public $beforeMount;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
+    public $mounted;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
+    public $beforeUpdate;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
     public $updated;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
+    public $activated;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
+    public $deactivated;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
+    public $beforeDestroy;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
+    public $destroyed;
+
 
     public function init() {
         $this->view->registerAssetBundle(VueAsset::className());
@@ -87,8 +136,14 @@ class Vue extends \yii\base\Widget
                 ".(!empty($methods) ? "methods :".$methods."," :null)."
                 ".(!empty($watch) ? "watch :".$watch."," :null)."
                 ".(!empty($computed) ? "computed :".$computed."," :null)."
+                ".(!empty($this->beforeCreate) ? "beforeCreate :".$this->beforeCreate->expression."," :null)."
                 ".(!empty($this->created) ? "created :".$this->created->expression."," :null)."
+                ".(!empty($this->beforeMount) ? "beforeMount :".$this->beforeMount->expression."," :null)."
+                ".(!empty($this->mounted) ? "mounted :".$this->mounted->expression."," :null)."
+                ".(!empty($this->beforeUpdate) ? "beforeUpdate :".$this->beforeUpdate->expression."," :null)."
                 ".(!empty($this->updated) ? "updated :".$this->updated->expression."," :null)."
+                ".(!empty($this->beforeDestroy) ? "beforeDestroy :".$this->beforeDestroy->expression."," :null)."
+                ".(!empty($this->destroyed) ? "destroyed :".$this->destroyed->expression."," :null)."
             }); 
         ";
         Yii::$app->view->registerJs($js, \yii\web\View::POS_END);
