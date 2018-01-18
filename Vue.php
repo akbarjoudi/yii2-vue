@@ -144,6 +144,8 @@ class Vue extends \yii\base\Widget
                 ".(!empty($this->updated) ? "updated :".$this->updated->expression."," :null)."
                 ".(!empty($this->beforeDestroy) ? "beforeDestroy :".$this->beforeDestroy->expression."," :null)."
                 ".(!empty($this->destroyed) ? "destroyed :".$this->destroyed->expression."," :null)."
+                ".(!empty($this->activated) ? "activated :".$this->activated->expression."," :null)."
+                ".(!empty($this->deactivated) ? "deactivated :".$this->deactivated->expression."," :null)."
             }); 
         ";
         Yii::$app->view->registerJs($js, \yii\web\View::POS_END);
