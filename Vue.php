@@ -7,6 +7,7 @@ use Yii;
  */
 class Vue extends \yii\base\Widget
 {
+    public $jsName = 'app';
     /**
      *
      * @var Array
@@ -129,7 +130,7 @@ class Vue extends \yii\base\Widget
         $computed = $this->generateComputed();
         $el = $this->id;
         $js = "
-            var app = new Vue({
+            var {$this->jsName} = new Vue({
                 el: '#".$el."',
                 ".(!empty($this->template) ? "template :'".$this->template."'," :null)."
                 ".(!empty($data) ? "data :".$data.",":null)."
