@@ -10,6 +10,10 @@ class VueAsset extends \yii\web\AssetBundle{
     public $sourcePath = '@bower/vue/dist';
     
     public $js = [
-        'vue.min.js',
     ];
+    
+    public function init()
+    {
+        $this->js[] = YII_ENV_DEV ? 'vue.js' : 'vue.min.js';
+    }
 }
