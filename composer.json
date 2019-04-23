@@ -1,13 +1,13 @@
 {
-    "name": "aki/yii2-vue",
+    "name": "rdj/yii2-vue",
     "description": "for yii2 web application ",
     "type": "yii2-extension",
-    "keywords": ["yii2","vue"," yii2-vue"," yii2"," vuejs"," akbar-joudi"," vue.js"],
+    "keywords": ["yii2","vue"," yii2-vue"," yii2"," vuejs","rickydj"," vue.js"],
     "license": "LGPL-3.0+",
     "authors": [
         {
-            "name": "akbar joudi",
-            "email": "akbar.joody@gmail.com"
+            "name": "rickydj",
+            "email": "rickydj@gmail.com"
         }
     ],
     "require": {
