@@ -73,6 +73,10 @@ Add Vue Router
 simply use it in your code by :
 
 ```php
+<?php
+use aki\vue\Vue;
+use aki\vue\VueRouter;
+?>
 <?php Vue::begin([
     'id' => "vue-app",
     'vueRouter'=> VueRouter::widget([
