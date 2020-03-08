@@ -7,7 +7,7 @@ namespace aki\vue;
  * @author akbar joudi <akbar.joody@gmail.com>
  */
 class AxiosAsset extends \yii\web\AssetBundle{
-    public $sourcePath = '@bower/axios/dist';
+    public $sourcePath = '@vueroot/node_modules/axios/dist';
     
     public $js = [
         'axios.min.js',

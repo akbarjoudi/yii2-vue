@@ -7,7 +7,7 @@ namespace aki\vue;
  * @author akbar joudi <akbar.joody@gmail.com>
  */
 class VueAsset extends \yii\web\AssetBundle{
-    public $sourcePath = '@bower/vue/dist';
+    public $sourcePath = '@vueroot/node_modules/vue/dist';
     
     public $js = [
     ];

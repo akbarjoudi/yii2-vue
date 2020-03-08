@@ -2,12 +2,20 @@
 namespace aki\vue;
 
 use Yii;
+
+Yii::setAlias('@vueroot', dirname(__FILE__));
 /**
  * @author akbar joudi <akbar.joody@gmail.com>
  */
 class Vue extends \yii\base\Widget
 {
     public $jsName = 'app';
+
+    /**
+     * @see aki/vue/VueRouter
+     */
+    public $vueRouter;
+
     /**
      *
      * @var Array
@@ -105,6 +113,10 @@ class Vue extends \yii\base\Widget
     public function init() {
         $this->view->registerAssetBundle(VueAsset::className());
         $this->view->registerAssetBundle(AxiosAsset::className());
+        if($this->vueRouter)
+        {
+            $this->view->registerAssetBundle(VueRouterAsset::className());
+        }
     }
     
     public static function begin($config = array()) {
@@ -129,9 +141,12 @@ class Vue extends \yii\base\Widget
         $watch = $this->generateWatch();
         $computed = $this->generateComputed();
         $el = $this->id;
-        $js = "
+        $js = " 
+            ".(($this->vueRouter) ? $this->vueRouter:null)."
+          
             var {$this->jsName} = new Vue({
                 el: '#".$el."',
+                ".(($this->vueRouter) ? "router,":null)."
                 ".(!empty($this->template) ? "template :'".$this->template."'," :null)."
                 ".(!empty($data) ? "data :".$data.",":null)."
                 ".(!empty($methods) ? "methods :".$methods."," :null)."
