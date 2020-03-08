@@ -76,6 +76,7 @@ simply use it in your code by :
 <?php
 use aki\vue\Vue;
 use aki\vue\VueRouter;
+use aki\vue\VueComponent;
 ?>
 <?php Vue::begin([
     'id' => "vue-app",
