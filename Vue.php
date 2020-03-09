@@ -109,6 +109,11 @@ class Vue extends \yii\base\Widget
      */
     public $destroyed;
 
+    /**
+     * @var Array
+     */
+    public $components;
+
 
     public function init() {
         $this->view->registerAssetBundle(VueAsset::className());
@@ -140,6 +145,7 @@ class Vue extends \yii\base\Widget
         $methods = $this->generateMethods();
         $watch = $this->generateWatch();
         $computed = $this->generateComputed();
+        $components = $this->generateComponents();
         $el = $this->id;
         $js = " 
             ".(($this->vueRouter) ? $this->vueRouter:null)."
@@ -148,6 +154,7 @@ class Vue extends \yii\base\Widget
                 el: '#".$el."',
                 ".(($this->vueRouter) ? "router,":null)."
                 ".(!empty($this->template) ? "template :'".$this->template."'," :null)."
+                ".(!empty($components) ? "components :".$components.",":null)."
                 ".(!empty($data) ? "data :".$data.",":null)."
                 ".(!empty($methods) ? "methods :".$methods."," :null)."
                 ".(!empty($watch) ? "watch :".$watch."," :null)."
@@ -211,6 +218,19 @@ class Vue extends \yii\base\Widget
             $str = rtrim($str,',');
             return "{".$str."}";
         }
+    }
+
+    public function generateComponents() {
+        if(!empty($this->components))
+        {
+            $components='';
+            for ($i=0; $i < count($this->components); $i++) { 
+                $component =  new VueComponent($this->components[$i]);
+                $components .= $component.',';
+            }
+            return substr($components, 0, strlen($components)-1);
+        }
+        return;
     }
     
     public function component($tagName, $option) {
