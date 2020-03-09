@@ -66,3 +66,43 @@ use aki\vue\Vue;
   
   
 <?php Vue::end(); ?>
+```
+
+Add Vue Router
+----- 
+
+simply use it in your code by :
+
+```php
+<?php
+use aki\vue\Vue;
+use aki\vue\VueRouter;
+use aki\vue\VueComponent;
+?>
+<?php Vue::begin([
+    'id' => "vue-app",
+    'vueRouter'=> VueRouter::widget([
+        'routes' => [
+            [
+                'path' => '/foo',
+                'component' => new VueComponent([
+                    'template' => '@vueroot/views/foo.php'
+                ])
+            ],
+            [
+                'path' => '/bar',
+                'component' => new VueComponent([
+                    'template' => '<div>hello</div>'
+                ])
+            ]
+        ]
+    ])
+]); ?>
+           
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+
+    <!-- route outlet -->
+    <?= VueRouter::$outlet ?><!-- <router-view></router-view> -->
+<?php Vue::end(); ?>
+```
