@@ -20,6 +20,15 @@ or add
 
 to the require section of your `composer.json` file.
 
+## After installing the extension, first install the vuejs framework
+
+Development Setup
+------------
+```
+# install deps
+npm install
+```
+
 Usage
 
 ---
