@@ -42,17 +42,16 @@ use aki\vue\Vue;
 <?php Vue::begin([
     'id' => "vue-app",
     'data' => [
-        'userModel' => User::findOne(Yii::$app->user->id),
-        'message' => "hello",
-        'seen' => false,
+        'message' => "hello world!!",
+        'seen' => true,
         'todos' => [
-            ['text' => "aa"],
-            ['text' => "akbar"]
+            ['text' => "akbar joudi"],
+            ['text' => "aref mohhamdzadeh"]
         ]
     ],
     'methods' => [
         'reverseMessage' => new yii\web\JsExpression("function(){"
-                . "this.message =1; "
+                . "this.message = this.message.split('').reverse().join(''); "
                 . "}"),
     ]
 ]); ?>
