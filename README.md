@@ -27,6 +27,7 @@ Either run
 # Move to folder
 cd ./vendor/aki/yii2-vue/
 ```
+and run command
 
 ```
 # install deps
