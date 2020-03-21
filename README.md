@@ -22,8 +22,8 @@ to the require section of your `composer.json` file.
 
 ## After installing the extension, first install the vuejs framework
 
-Development Setup
-------------
+Either run
+
 ```
 # install deps
 npm install
