@@ -23,6 +23,10 @@ to the require section of your `composer.json` file.
 ## After installing the extension, first install the vuejs framework
 
 Either run
+```
+# install deps
+cd .\vendor\aki\yii2-vue\
+```
 
 ```
 # install deps
