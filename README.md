@@ -25,7 +25,7 @@ to the require section of your `composer.json` file.
 Either run
 ```
 # install deps
-cd .\vendor\aki\yii2-vue\
+cd ./vendor/aki/yii2-vue/
 ```
 
 ```
