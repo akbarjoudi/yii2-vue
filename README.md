@@ -1,6 +1,12 @@
 # vuejs
 
 for yii2 web application
+<p align="center">
+    
+[![Latest Stable Version](https://poser.pugx.org/aki/yii2-vue/v/stable)](https://packagist.org/packages/aki/yii2-vue)
+    
+[![Total Downloads](https://poser.pugx.org/aki/yii2-vue/downloads)](https://packagist.org/packages/aki/yii2-vue)
+</p>
 
 ## Installation
 
