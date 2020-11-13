@@ -115,6 +115,11 @@ use aki\vue\VueComponent;
                                 ]
                             ])
                         ],
+                        'methods' => [
+                            'hello' => new yii\web\JsExpression("function(){"
+                                . " alert('hello'); "
+                                . "}"),
+                        ]
                 ])
             ],
             [
