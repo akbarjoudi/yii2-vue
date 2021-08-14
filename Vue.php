@@ -1,4 +1,5 @@
 <?php
+
 namespace aki\vue;
 
 use Yii;
@@ -21,12 +22,12 @@ class Vue extends \yii\base\Widget
      * @var Array
      */
     public $data;
-    
+
     /**
-    *   template
-    */
+     *   template
+     */
     public $templete;
-    
+
     /**
      * 'methods' => [
      *  'reverseMessage' => new yii\web\JsExpression("function(){"
@@ -36,13 +37,13 @@ class Vue extends \yii\base\Widget
      * @var Array
      */
     public $methods;
-    
+
     /**
      *
      * @var Array 
-     */ 
+     */
     public $watch;
-    
+
     /**
      *
      * @var Array
@@ -115,128 +116,177 @@ class Vue extends \yii\base\Widget
     public $components;
 
 
-    public function init() {
+    public $use;
+
+    /**
+     *
+     * @var \yii\web\JsExpression
+     */
+    public $sockets;
+
+
+    public function init()
+    {
         $this->view->registerAssetBundle(VueAsset::className());
         $this->view->registerAssetBundle(AxiosAsset::className());
-        if($this->vueRouter)
-        {
+        if ($this->vueRouter) {
             $this->view->registerAssetBundle(VueRouterAsset::className());
         }
     }
-    
-    public static function begin($config = array()) {
+
+    public static function begin($config = array())
+    {
         $obj =  parent::begin($config);
-        echo '<div id="'.$obj->id.'">';
+        echo '<div id="' . $obj->id . '">';
         return $obj;
     }
-    
-    
-    public static function end() {
+
+
+    public static function end()
+    {
         echo '</div>';
         return parent::end();
     }
-    
-    public function run() {
-        return $this->renderVuejs();       
+
+    public function run()
+    {
+        return $this->renderVuejs();
     }
-    
-    public function renderVuejs() {
+
+    public function renderVuejs()
+    {
         $data = $this->generateData();
         $methods = $this->generateMethods();
         $watch = $this->generateWatch();
         $computed = $this->generateComputed();
         $components = $this->generateComponents();
+        $sockets = $this->generateSockets();
         $el = $this->id;
+
+        $use  = $this->initUse();
         $js = " 
-            ".(($this->vueRouter) ? $this->vueRouter:null)."
-          
+            " . (($this->vueRouter) ? $this->vueRouter : null) . "
+            $use
             var {$this->jsName} = new Vue({
-                el: '#".$el."',
-                ".(($this->vueRouter) ? "router,":null)."
-                ".(!empty($this->template) ? "template :'".$this->template."'," :null)."
-                ".(!empty($components) ? "components :".$components.",":null)."
-                ".(!empty($data) ? "data :".$data.",":null)."
-                ".(!empty($methods) ? "methods :".$methods."," :null)."
-                ".(!empty($watch) ? "watch :".$watch."," :null)."
-                ".(!empty($computed) ? "computed :".$computed."," :null)."
-                ".(!empty($this->beforeCreate) ? "beforeCreate :".$this->beforeCreate->expression."," :null)."
-                ".(!empty($this->created) ? "created :".$this->created->expression."," :null)."
-                ".(!empty($this->beforeMount) ? "beforeMount :".$this->beforeMount->expression."," :null)."
-                ".(!empty($this->mounted) ? "mounted :".$this->mounted->expression."," :null)."
-                ".(!empty($this->beforeUpdate) ? "beforeUpdate :".$this->beforeUpdate->expression."," :null)."
-                ".(!empty($this->updated) ? "updated :".$this->updated->expression."," :null)."
-                ".(!empty($this->beforeDestroy) ? "beforeDestroy :".$this->beforeDestroy->expression."," :null)."
-                ".(!empty($this->destroyed) ? "destroyed :".$this->destroyed->expression."," :null)."
-                ".(!empty($this->activated) ? "activated :".$this->activated->expression."," :null)."
-                ".(!empty($this->deactivated) ? "deactivated :".$this->deactivated->expression."," :null)."
+                el: '#" . $el . "',
+                " . (($this->vueRouter) ? "router," : null) . "
+                " . (!empty($this->template) ? "template :'" . $this->template . "'," : null) . "
+                " . (!empty($components) ? "components :" . $components . "," : null) . "
+                " . (!empty($data) ? "data :" . $data . "," : null) . "
+                " . (!empty($methods) ? "methods :" . $methods . "," : null) . "
+                " . (!empty($watch) ? "watch :" . $watch . "," : null) . "
+                " . (!empty($computed) ? "computed :" . $computed . "," : null) . "
+                " . (!empty($this->beforeCreate) ? "beforeCreate :" . $this->beforeCreate->expression . "," : null) . "
+                " . (!empty($this->created) ? "created :" . $this->created->expression . "," : null) . "
+                " . (!empty($this->beforeMount) ? "beforeMount :" . $this->beforeMount->expression . "," : null) . "
+                " . (!empty($this->mounted) ? "mounted :" . $this->mounted->expression . "," : null) . "
+                " . (!empty($this->beforeUpdate) ? "beforeUpdate :" . $this->beforeUpdate->expression . "," : null) . "
+                " . (!empty($this->updated) ? "updated :" . $this->updated->expression . "," : null) . "
+                " . (!empty($this->beforeDestroy) ? "beforeDestroy :" . $this->beforeDestroy->expression . "," : null) . "
+                " . (!empty($this->destroyed) ? "destroyed :" . $this->destroyed->expression . "," : null) . "
+                " . (!empty($this->activated) ? "activated :" . $this->activated->expression . "," : null) . "
+                " . (!empty($this->deactivated) ? "deactivated :" . $this->deactivated->expression . "," : null) . "
+                " . (!empty($this->sockets) ? "sockets :" . $sockets . "," : null) . "
             }); 
         ";
         Yii::$app->view->registerJs($js, \yii\web\View::POS_END);
     }
-    
-    public function generateData() {
-        if(!empty($this->data)){
+
+    public function generateData()
+    {
+        if (!empty($this->data)) {
             return json_encode($this->data);
         }
     }
-  
-    public function generateMethods() {
-        if(is_array($this->methods) && !empty($this->methods)){
+
+    public function generateMethods()
+    {
+        if (is_array($this->methods) && !empty($this->methods)) {
             $str = '';
             foreach ($this->methods as $key => $value) {
-                if($value instanceof \yii\web\JsExpression){
-                    $str.= $key.":".$value->expression.',';
+                if ($value instanceof \yii\web\JsExpression) {
+                    $str .= $key . ":" . $value->expression . ',';
                 }
             }
-            $str = rtrim($str,',');
-            return "{".$str."}";
-        }
-    }
-    
-    
-    public function generateWatch() {
-        if(is_array($this->watch) && !empty($this->watch)){
-            $str = '';
-            foreach ($this->watch as $key => $value) {
-                if($value instanceof \yii\web\JsExpression){
-                    $str.= $key.":".$value->expression.',';
-                }
-            }
-            $str = rtrim($str,',');
-            return "{".$str."}";
-        }
-    }
-    
-    public function generateComputed() {
-        if(is_array($this->computed) && !empty($this->computed)){
-            $str = '';
-            foreach ($this->computed as $key => $value) {
-                if($value instanceof \yii\web\JsExpression){
-                    $str.= $key.":".$value->expression.',';
-                }
-            }
-            $str = rtrim($str,',');
-            return "{".$str."}";
+            $str = rtrim($str, ',');
+            return "{" . $str . "}";
         }
     }
 
-    public function generateComponents() {
-        if(!empty($this->components))
-        {
-            $components='';
-            for ($i=0; $i < count($this->components); $i++) { 
-                $component =  new VueComponent($this->components[$i]);
-                $components .= $component.',';
+
+    public function generateWatch()
+    {
+        if (is_array($this->watch) && !empty($this->watch)) {
+            $str = '';
+            foreach ($this->watch as $key => $value) {
+                if ($value instanceof \yii\web\JsExpression) {
+                    $str .= $key . ":" . $value->expression . ',';
+                }
             }
-            return substr($components, 0, strlen($components)-1);
+            $str = rtrim($str, ',');
+            return "{" . $str . "}";
+        }
+    }
+
+    public function generateComputed()
+    {
+        if (is_array($this->computed) && !empty($this->computed)) {
+            $str = '';
+            foreach ($this->computed as $key => $value) {
+                if ($value instanceof \yii\web\JsExpression) {
+                    $str .= $key . ":" . $value->expression . ',';
+                }
+            }
+            $str = rtrim($str, ',');
+            return "{" . $str . "}";
+        }
+    }
+
+    public function generateComponents()
+    {
+        if (!empty($this->components)) {
+            $components = '';
+            for ($i = 0; $i < count($this->components); $i++) {
+                $component =  new VueComponent($this->components[$i]);
+                $components .= $component . ',';
+            }
+            return substr($components, 0, strlen($components) - 1);
         }
         return;
     }
-    
-    public function component($tagName, $option) {
+
+    public function component($tagName, $option)
+    {
         $option = json_encode($option);
         $this->view->registerJs("
             Vue.component($tagName, $option);
             ");
     }
+
+    public function generateSockets()
+    {
+        if (is_array($this->sockets) && !empty($this->sockets)) {
+            $str = '';
+            foreach ($this->sockets as $key => $value) {
+                if ($value instanceof \yii\web\JsExpression) {
+                    $str .= $key . ":" . $value->expression . ',';
+                }
+            }
+            $str = rtrim($str, ',');
+            return "{" . $str . "}";
+        }
+    }
+
+
+    public function initUse()
+    {
+        $use = "";
+        if ($this->use) {
+            foreach ($this->use as $item) {
+                $use .= "{$item->expression}";
+            }
+        }
+        return $use;
+    }
+
 }
