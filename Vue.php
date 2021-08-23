@@ -124,13 +124,21 @@ class Vue extends \yii\base\Widget
      */
     public $sockets;
 
+    /**
+     * @var boolean
+     */
+    public $useAxios = false;
+
 
     public function init()
     {
-        $this->view->registerAssetBundle(VueAsset::className());
-        $this->view->registerAssetBundle(AxiosAsset::className());
+        $this->view->registerAssetBundle(VueAsset::class);
+        if ($this->useAxios) {
+            $this->view->registerAssetBundle(AxiosAsset::class);
+        }
+
         if ($this->vueRouter) {
-            $this->view->registerAssetBundle(VueRouterAsset::className());
+            $this->view->registerAssetBundle(VueRouterAsset::class);
         }
     }
 
@@ -288,5 +296,4 @@ class Vue extends \yii\base\Widget
         }
         return $use;
     }
-
 }
