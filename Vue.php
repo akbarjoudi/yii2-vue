@@ -140,12 +140,17 @@ class Vue extends \yii\base\Widget
         if ($this->vueRouter) {
             $this->view->registerAssetBundle(VueRouterAsset::class);
         }
+        $this->view->registerCss("
+            [v-cloak] {
+                display:none;
+            }
+        ");
     }
 
     public static function begin($config = array())
     {
         $obj =  parent::begin($config);
-        echo '<div id="' . $obj->id . '">';
+        echo '<div v-cloak id="' . $obj->id . '">';
         return $obj;
     }
 
