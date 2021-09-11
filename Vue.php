@@ -3,6 +3,7 @@
 namespace aki\vue;
 
 use Yii;
+use yii\helpers\Json;
 
 Yii::setAlias('@vueroot', dirname(__FILE__));
 /**
@@ -168,6 +169,7 @@ class Vue extends \yii\base\Widget
 
     public function renderVuejs()
     {
+        
         $data = $this->generateData();
         $methods = $this->generateMethods();
         $watch = $this->generateWatch();
@@ -177,15 +179,20 @@ class Vue extends \yii\base\Widget
         $el = $this->id;
 
         $use  = $this->initUse();
+        
         $js = " 
+            var $el = {
+                data : " . (!empty($data) ? $data : "''") . "
+            };            
+
             " . (($this->vueRouter) ? $this->vueRouter : null) . "
             $use
-            var {$this->jsName} = new Vue({
+            var ".$this->jsName.$el." = new Vue({
                 el: '#" . $el . "',
                 " . (($this->vueRouter) ? "router," : null) . "
                 " . (!empty($this->template) ? "template :'" . $this->template . "'," : null) . "
                 " . (!empty($components) ? "components :" . $components . "," : null) . "
-                " . (!empty($data) ? "data :" . $data . "," : null) . "
+                " . (!empty($data) ? "data :".$el.".data," : null) . "
                 " . (!empty($methods) ? "methods :" . $methods . "," : null) . "
                 " . (!empty($watch) ? "watch :" . $watch . "," : null) . "
                 " . (!empty($computed) ? "computed :" . $computed . "," : null) . "
