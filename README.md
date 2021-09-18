@@ -65,6 +65,11 @@ use aki\vue\Vue;
         'reverseMessage' => new yii\web\JsExpression("function(){"
                 . "this.message = this.message.split('').reverse().join(''); "
                 . "}"),
+    ],
+    'watch' => [
+        'message' => new JsExpression('async function(newval, oldval){
+            console.log(newval)
+        }'),
     ]
 ]); ?>
 
