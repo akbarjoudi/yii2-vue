@@ -242,6 +242,9 @@ class Vue extends \yii\base\Widget
                 if ($value instanceof \yii\web\JsExpression) {
                     $str .= $key . ":" . $value->expression . ',';
                 }
+                else{
+                    $str .= $key . ":" . $value.',';
+                }
             }
             $str = rtrim($str, ',');
             return "{" . $str . "}";
