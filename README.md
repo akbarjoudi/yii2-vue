@@ -67,7 +67,7 @@ use aki\vue\Vue;
                 . "}"),
     ],
     'watch' => [
-        'message' => new JsExpression('async function(newval, oldval){
+        'message' => new JsExpression('function(newval, oldval){
             console.log(newval)
         }'),
     ]
